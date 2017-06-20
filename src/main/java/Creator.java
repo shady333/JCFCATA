@@ -19,7 +19,7 @@ public class Creator {
 
     public static void main(String[] args) throws IOException {
 
-        int numberOfAndroidDevices = 2;
+        int numberOfAndroidDevices;
         String deviceUdid;
         List<JsonObject> jsonsToCreate = new ArrayList<>();
 
@@ -89,10 +89,6 @@ public class Creator {
         }
     }
 
-//    public static JsonObject createJson(){
-//        return createJson(androidVersion, "UNIQUE_DEVICE_UDID");
-//    }
-
     public static JsonObject createJson(String version, String udid, String hostIp, int hostPort, String hubIp, int hubPort){
         String browserName = "Android";
         String seleniumProtocol = "WebDriver";
@@ -112,13 +108,9 @@ public class Creator {
         int timeout = 180000;
         String proxy = "org.openqa.grid.selenium.proxy.DefaultRemoteProxy";
         String url = "http://" + hostIp + ":" + hostPort + "/wd/hub";
-//        String host = "10.25.14.116";
-//        int port = 6723;
         int maxSession = 1;
         boolean register = true;
         int registerCycle = 5000;
-//        int hubPort = 4444;
-//        String hubHost = "10.25.14.116";
 
         JsonObject configuration = Json.createObjectBuilder()
                 .add("cleanUpCycle", cleanUpCycle)
