@@ -1,6 +1,7 @@
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import java.io.Console;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -29,6 +30,7 @@ public class Creator {
         if(scan.nextLine().equalsIgnoreCase("y")){
             System.out.println("Going to generate default config files");
             scan.close();
+            jsonsToCreate.add(createJson());
         }
         else {
             System.out.println("Number of Android devices?");
@@ -70,23 +72,35 @@ public class Creator {
                 jsonsToCreate.add(createJson(androidVersion, deviceUdid, hostIp, hostPort, hubIp, hubPort));
             }
         }
+        writeJsonToFiles(jsonsToCreate);
 
+
+    }
+
+    private static void writeJsonToFiles(List<JsonObject> jsonsToCreate) throws FileNotFoundException {
         // config Map is created for pretty printing.
         Map<String, Boolean> config = new HashMap<>();
         // Pretty printing feature is added.
         config.put(JsonGenerator.PRETTY_PRINTING, true);
 
         int i = 0;
+        String fileNameToGenerate;
         for(JsonObject obj : jsonsToCreate) {
 
             // PrintWriter and JsonWriter is being created
             // in try-with-resources
-            try (PrintWriter pw = new PrintWriter("device" + ++i + ".json")
+            fileNameToGenerate = "device" + ++i + ".json";
+            try (PrintWriter pw = new PrintWriter(fileNameToGenerate)
                  ; JsonWriter jsonWriter = Json.createWriterFactory(config).createWriter(pw)) {
                 // Json object is being sent into file system
                 jsonWriter.writeObject(obj);
+                System.out.println("Configuration file " + fileNameToGenerate + " crated.");
             }
         }
+    }
+
+    public static JsonObject createJson(){
+        return createJson(androidVersionDef, "UNIQUE_DEVICE_ID", hostIp, hostPort, hubIp, hubPort);
     }
 
     public static JsonObject createJson(String version, String udid, String hostIp, int hostPort, String hubIp, int hubPort){
