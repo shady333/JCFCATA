@@ -6,10 +6,15 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by Oleg_Dudar on 22-Jun-17.
  */
 public class CreatorTest {
+
+    final static Logger logger = Logger.getLogger(CreatorTest.class);
+
     @BeforeMethod
     public void setUp() throws Exception {
         System.out.println("Setup");
@@ -23,6 +28,11 @@ public class CreatorTest {
     @Test
     public void testCreateJson() throws Exception {
         System.out.println("Test");
+
+        logger.warn("This is warn");
+        logger.error("This is error");
+        logger.fatal("This is fatal");
+
 
         //TODO please remove this!!!
         Assert.assertTrue(true);
